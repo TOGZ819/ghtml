@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>Pokemon Radical Red</title>
+<style>
+  html,body{margin:0;padding:0;width:100%;height:100%;background:#121212;color:#fff;font-family:Arial,Helvetica,sans-serif;display:flex;align-items:center;justify-content:center}
+  #game-container{width:100%;height:100%;text-align:center}
+  #game{width:100%;height:100%}
+  #loadingScreen{position:fixed;inset:0;background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:9999}
+  #loadingProgress{width:300px;height:20px;border-radius:10px;overflow:hidden;background:transparent}
+  #loadingBar{width:0%;height:100%;background:#4caf50;border-radius:10px;transition:width .2s ease}
+</style>
+<script>
+  window.gameconfig={name:"Pokemon radical red",url:"https://cdn.jsdelivr.net/gh/bubbls/ugss@5d68b95d0791cb9ee118f1c90c3f8008ab2f84a2/radical%20red/Pokemon%20-%20FireRed%20Version%20(USA%2C%20Europe)%20(patched)%20(1).gba",core:"gba",min:1,max:2};
+  function updateLoadingProgress(p){var b=document.getElementById('loadingBar');if(b)b.style.width=(Math.max(0,Math.min(1,p))*100)+'%'}
+  function hideLoadingScreen(){var s=document.getElementById('loadingScreen');if(s)s.style.display='none'}
+  function getParts(file,start,end){var a=[];for(var i=start;i<=end;i++)a.push(file+".part"+i);return a}
+  function mergeFiles(fileParts,onProgress){return new Promise(function(resolve,reject){var len=fileParts.length,done=0,buffers=[];function fetchPart(i){if(i>=len){var blob=new Blob(buffers);return resolve(URL.createObjectURL(blob))}fetch(fileParts[i]).then(r=>r.arrayBuffer()).then(data=>{buffers.push(data);done++;if(onProgress)onProgress(done/len);fetchPart(i+1)}).catch(reject)}fetchPart(0)})
+  }
+</script>
+</head>
+<body>
+<div id="loadingScreen">
+  <img src="https://cdn.jsdelivr.net/gh/TOGZ819/togz8.com/media.png" alt="Logo" style="max-width:300px;margin-bottom:20px">
+  <div id="loadingProgress"><div id="loadingBar"></div></div>
+</div>
+
+<div id="game-container"><div id="game"></div></div>
+
+<script>
+  var parts=getParts(window.gameconfig.url,window.gameconfig.min,window.gameconfig.max);
+  var safety=setTimeout(function(){updateLoadingProgress(1);hideLoadingScreen()},20000);
+  mergeFiles(parts,function(frac){updateLoadingProgress(frac||0)}).then(function(gameUrl){
+    updateLoadingProgress(1);hideLoadingScreen();clearTimeout(safety);
+    window.EJS_player="#game";
+    window.EJS_core=window.gameconfig.core;
+    window.EJS_gameName=window.gameconfig.name;
+    window.EJS_color="#0064ff";
+    window.EJS_startOnLoaded=true;
+    window.EJS_pathtodata="https://cdn.jsdelivr.net/gh/genizy/emu@master/";
+    window.EJS_gameUrl=gameUrl;
+    var s=document.createElement("script");
+    s.src="https://cdn.jsdelivr.net/gh/genizy/emu@master/loader.js";
+    document.body.appendChild(s);
+  }).catch(function(){
+    updateLoadingProgress(0);
+  });
+</script>
+</body>
+</html>
