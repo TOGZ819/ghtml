@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<base href="https://cdn.jsdelivr.net/gh/bubbls/clusterarchive/">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>Unity WebGL Player | Cluster Rush</title>
+  <link href="TemplateData/style.css" rel="stylesheet">
+  <script src="TemplateData/UnityProgress.js" type="text/javascript"></script>
+  <style>
+    html,body{margin:0;height:100%}
+    /* Decorative Togz8 loader */
+    #loadingScreen{position:fixed;inset:0;background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:9999;opacity:1;transition:opacity .3s ease}
+    #loadingLogo{max-width:300px;margin-bottom:20px}
+    #loadingProgress{width:300px;height:20px;border-radius:10px;overflow:hidden;background:transparent}
+    #loadingBar{width:0%;height:100%;background:#4caf50;border-radius:10px;animation:decorFill 2.2s ease forwards}
+    @keyframes decorFill { from { width:0% } to { width:100% } }
+    #loadingScreen.hide{opacity:0;pointer-events:none}
+  </style>
+</head>
+<body class="template">
+  <div class="template-wrap clear">
+    <canvas class="emscripten" id="canvas" oncontextmenu="event.preventDefault()" style="width:100vw;height:100.1vh"></canvas>
+  </div>
+
+  <!-- Decorative Togz8 Loading Screen -->
+  <div id="loadingScreen">
+    <img id="loadingLogo" src="https://cdn.jsdelivr.net/gh/TOGZ819/togz8.com/media.png" alt="Logo">
+    <div id="loadingProgress"><div id="loadingBar"></div></div>
+  </div>
+
+  <script>
+    function hideDecorLoader(){
+      var s=document.getElementById('loadingScreen');
+      if(!s) return;
+      s.classList.add('hide');
+      setTimeout(function(){ if(s && s.parentNode) s.parentNode.removeChild(s) }, 350);
+    }
+    // Fade out ~2.5s after load; 10s safety in case load event is delayed
+    window.addEventListener('load', function(){ setTimeout(hideDecorLoader, 2500); });
+    setTimeout(hideDecorLoader, 10000);
+  </script>
+
+  <!-- Original Unity (unchanged) -->
+  <script type="text/javascript">
+    var Module = {
+      TOTAL_MEMORY: 268435456,
+      errorhandler: null,
+      compatibilitycheck: null,
+      backgroundColor: "#222C36",
+      splashStyle: "Dark",
+      dataUrl: "Release/NG.data",
+      codeUrl: "Release/NG.js",
+      asmUrl: "Release/NG.asm.js",
+      memUrl: "Release/NG.mem"
+    };
+  </script>
+  <script src="Release/UnityLoader.js"></script>
+</body>
+</html>
