@@ -1,114 +1,55 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="utf-8" />
+<html lang="en"><head><base target="_blank">
+  <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no" />
-  <title>Puncht the Drum</title>
-
-  <!-- Original stylesheet -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/AndreajnRcm4/b398dl2h74v@9a23fbb2373d743a564873251cbb57736ebc1f73/style.css" type="text/css" />
-
-  <!-- Ruffle (Flash emulator) -->
+  <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no">
+  <title>The Impossible Quiz</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/AndreajnRcm4/b398dl2h74v@9a23fbb2373d743a564873251cbb57736ebc1f73/style.css" type="text/css">
   <script src="https://cdn.jsdelivr.net/gh/u-cvlassrom-y/google@main/ruffle.js"></script>
-
   <style>
-    html, body {
-      height: 100%;
-      margin: 0;
-      background: #000;
-      overflow: hidden;
-    }
-    #game-root {
-      position: fixed
-      inset: 0;
-      width: 100%;
-      height: 100%;
-    }
-    /* Loading overlay */
-    #loadingScreen {
-      position: fixed;
-      inset: 0;
-      background: #fff;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      z-index: 99999;
-      opacity: 1;
-      transition: opacity .25s ease;
-    }
-    #loadingScreen.hide {
-      opacity: 0;
-      pointer-events: none;
-    }
-    #loadingScreen img {
-      max-width: 300px;
-      margin-bottom: 20px;
-      display: block;
-    }
-    #loadingProgress {
-      width: 300px;
-      height: 20px;
-      border-radius: 10px;
-      overflow: hidden;
-      background: transparent;
-    }
-    #loadingBar {
-      width: 0%;
-      height: 100%;
-      background: #4caf50;
-      border-radius: 10px;
-      transition: width .15s ease;
-    }
+    html, body {height: 100%;margin: 0;background: #000;overflow: hidden;}
+    #game-root {position: fixed;inset: 0;width: 100%;height: 100%;}
+    #loadingScreen {position: fixed;inset: 0;background: #fff;display: flex;flex-direction: column;align-items: center;justify-content: center;z-index: 99999;opacity: 1;transition: opacity .25s ease;}
+    #loadingScreen.hide {opacity: 0;pointer-events: none;}
+    #loadingScreen img {max-width: 300px;margin-bottom: 20px;display: block;}
+    #loadingProgress {width: 300px;height: 20px;border-radius: 10px;overflow: hidden;background: transparent;}
+    #loadingBar {width: 0%;height: 100%;background: #4caf50;border-radius: 10px;transition: width .15s ease;}
   </style>
 </head>
 <body>
-  <!-- Neutral loading screen (no branding) -->
   <div id="loadingScreen">
-    <img src="https://cdn.jsdelivr.net/gh/TOGZ819/togz8.com/media.png" alt="Loading...">
+    <img src="https://cdn.jsdelivr.net/gh/TOGZ819/togz8.com/media.png" alt="">
     <div id="loadingProgress"><div id="loadingBar"></div></div>
   </div>
-
-  <!-- Game container -->
-  <div id="game-root"></div>
-
+  <div id="game-root"><ruffle-player style="width: 100%; height: 100%;"></ruffle-player></div>
   <script>
     (function(){
       const SWF_URL = "https://cdn.jsdelivr.net/gh/ahm-rblox-game/123@main/punch-the-trump.swf";
-
       const loadingBar = document.getElementById('loadingBar');
       const loadingScreen = document.getElementById('loadingScreen');
       let smooth = 0;
-
       function setProgress(p){
         p = Math.max(0, Math.min(1, Number(p) || 0));
         smooth += (p - smooth) * 0.35;
         loadingBar.style.width = (smooth * 100).toFixed(1) + "%";
       }
-
       function hideLoader(){
         setProgress(1);
         loadingScreen.classList.add('hide');
         setTimeout(() => loadingScreen.remove(), 250);
       }
-
       async function fetchWithProgress(url){
         const res = await fetch(url, { cache: "force-cache" });
         if (!res.ok || !res.body) return await res.blob();
-
         const contentLength = Number(res.headers.get("Content-Length")) || 0;
         const reader = res.body.getReader();
         const chunks = [];
         let received = 0;
         let unknownTick = 0.07;
-
         while (true) {
           const { done, value } = await reader.read();
           if (done) break;
           chunks.push(value);
           received += value.byteLength;
-
           if (contentLength > 0) {
             setProgress(received / contentLength);
           } else {
@@ -117,44 +58,23 @@
         }
         return new Blob(chunks, { type: "application/x-shockwave-flash" });
       }
-
       async function bootRuffle(blobUrl){
         const ruffle = window.RufflePlayer?.newest?.();
-        if (!ruffle) {
-          console.error("Ruffle not available.");
-          hideLoader();
-          return;
-        }
-
+        if (!ruffle) { hideLoader(); return; }
         const player = ruffle.createPlayer();
         player.style.width = "100%";
         player.style.height = "100%";
         document.getElementById('game-root').appendChild(player);
-        try {
-          await player.load(blobUrl);
-        } finally {
-          hideLoader();
-        }
+        try { await player.load(blobUrl); } finally { hideLoader(); }
       }
-
       (async () => {
         try {
           const blob = await fetchWithProgress(SWF_URL);
           const blobUrl = URL.createObjectURL(blob);
           await bootRuffle(blobUrl);
-        } catch (e) {
-          console.error(e);
-          hideLoader();
-        }
+        } catch (e) { hideLoader(); }
       })();
-
-      setTimeout(() => {
-        if (document.getElementById('loadingScreen')) hideLoader();
-      }, 45000);
+      setTimeout(() => { if (document.getElementById('loadingScreen')) hideLoader(); }, 45000);
     })();
   </script>
-</body>
-</html>
-
-
-
+</body></html>
