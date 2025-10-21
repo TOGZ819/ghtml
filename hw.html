@@ -1,0 +1,88 @@
+<html lang="en-us">
+<head>
+<base target="_blank">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no">
+<title>Game</title>
+<style>
+html,body{margin:0;padding:0;height:100%;overflow:hidden;background:#000}
+iframe{width:100%;height:100%;border:none;display:none}
+#loadingScreen{
+position:fixed;
+top:0;left:0;width:100%;height:100%;
+background:#fff;
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+z-index:9999
+}
+#loadingScreen img{
+max-width:300px;
+margin-bottom:20px
+}
+#loadingProgress{
+width:300px;
+height:20px;
+border-radius:10px;
+overflow:hidden;
+background:transparent
+}
+#loadingBar{
+width:0%;
+height:100%;
+background:#4caf50;
+border-radius:10px;
+transition:width 0.2s ease
+}
+.fullscreen-button{
+position:fixed;
+bottom:20px;
+right:20px;
+background-color:#5D3FD3;
+border:none;
+color:white;
+padding:16px 32px;
+font-size:16px;
+border-radius:12px;
+cursor:pointer;
+z-index:9999;
+transition:background 0.3s
+}
+.fullscreen-button:hover{background-color:#4B2FB2}
+</style>
+</head>
+<body>
+<div id="loadingScreen">
+<img src="https://cdn.jsdelivr.net/gh/TOGZ819/togz8.com/media.png" alt="Loading Logo">
+<div id="loadingProgress"><div id="loadingBar"></div></div>
+</div>
+<iframe id="gameFrame" src="https://cdn.jsdelivr.net/gh/TOGZ819/ghtml/hw.html" allowfullscreen></iframe>
+<button class="fullscreen-button" onclick="toggleFullscreen()">Fullscreen</button>
+<script>
+function updateLoadingProgress(progress){
+var loadingBar=document.getElementById('loadingBar');
+if(loadingBar){loadingBar.style.width=(progress*100)+'%'}
+}
+window.addEventListener('load',function(){
+var iframe=document.getElementById('gameFrame');
+var loader=document.getElementById('loadingScreen');
+var progress=0;
+var interval=setInterval(function(){
+progress+=0.05;
+updateLoadingProgress(progress);
+if(progress>=1){
+clearInterval(interval);
+loader.style.display='none';
+iframe.style.display='block';
+}
+},100);
+});
+function toggleFullscreen(){
+var elem=document.documentElement;
+if(!document.fullscreenElement){elem.requestFullscreen();}
+else{document.exitFullscreen();}
+}
+</script>
+</body>
+</html>
