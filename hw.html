@@ -1,88 +1,33 @@
-<html lang="en-us">
+
+<Module>
+
+
+<!-- Ultimate Game Stash file--> 
+<!-- For the regularly updating doc go to https://docs.google.com/document/d/1_FmH3BlSBQI7FGgAQL59-ZPe8eCxs35wel6JUyVaG8Q/ -->
+
+
+
+<Module>
+<ModulePrefs title="Google.com" />
+<Content type="html"><![CDATA[
+<html lang="en">
 <head>
-<base target="_blank">
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no">
-<title>Game</title>
-<style>
-html,body{margin:0;padding:0;height:100%;overflow:hidden;background:#000}
-iframe{width:100%;height:100%;border:none;display:none}
-#loadingScreen{
-position:fixed;
-top:0;left:0;width:100%;height:100%;
-background:#fff;
-display:flex;
-flex-direction:column;
-align-items:center;
-justify-content:center;
-z-index:9999
-}
-#loadingScreen img{
-max-width:300px;
-margin-bottom:20px
-}
-#loadingProgress{
-width:300px;
-height:20px;
-border-radius:10px;
-overflow:hidden;
-background:transparent
-}
-#loadingBar{
-width:0%;
-height:100%;
-background:#4caf50;
-border-radius:10px;
-transition:width 0.2s ease
-}
-.fullscreen-button{
-position:fixed;
-bottom:20px;
-right:20px;
-background-color:#5D3FD3;
-border:none;
-color:white;
-padding:16px 32px;
-font-size:16px;
-border-radius:12px;
-cursor:pointer;
-z-index:9999;
-transition:background 0.3s
-}
-.fullscreen-button:hover{background-color:#4B2FB2}
-</style>
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/AndreajnRcm4/b398dl2h74v@9a23fbb2373d743a564873251cbb57736ebc1f73/style.css" type="text/css" />
+    
 </head>
 <body>
-<div id="loadingScreen">
-<img src="https://cdn.jsdelivr.net/gh/TOGZ819/togz8.com/media.png" alt="Loading Logo">
-<div id="loadingProgress"><div id="loadingBar"></div></div>
-</div>
-<iframe id="gameFrame" src="https://cdn.jsdelivr.net/gh/TOGZ819/ghtml/hw.html" allowfullscreen></iframe>
-<button class="fullscreen-button" onclick="toggleFullscreen()">Fullscreen</button>
-<script>
-function updateLoadingProgress(progress){
-var loadingBar=document.getElementById('loadingBar');
-if(loadingBar){loadingBar.style.width=(progress*100)+'%'}
-}
-window.addEventListener('load',function(){
-var iframe=document.getElementById('gameFrame');
-var loader=document.getElementById('loadingScreen');
-var progress=0;
-var interval=setInterval(function(){
-progress+=0.05;
-updateLoadingProgress(progress);
-if(progress>=1){
-clearInterval(interval);
-loader.style.display='none';
-iframe.style.display='block';
-}
-},100);
-});
-function toggleFullscreen(){
-var elem=document.documentElement;
-if(!document.fullscreenElement){elem.requestFullscreen();}
-else{document.exitFullscreen();}
-}
-</script>
+<script src="https://cdn.jsdelivr.net/gh/u-cvlassrom-y/google@main/ruffle.js"></script>
+
+<object width="100%" height="100%">
+    <param name="movie" value="https://cdn.jsdelivr.net/gh/bubbls/UGS-file-encryption@97af31ec5b7d4858652ff2304c42200dc472fc7d/HappyWheels.swf">
+    <embed src="https://cdn.jsdelivr.net/gh/bubbls/UGS-file-encryption@97af31ec5b7d4858652ff2304c42200dc472fc7d/HappyWheels.swf" width="100%" height="100%">
 </body>
 </html>
+]]></Content>
+</Module>
+clhappywheels.html
+
+Displaying clhappywheels.html.
